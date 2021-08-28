@@ -10,10 +10,10 @@ router.get('/posts', feedController.getPosts);
 // POST /feed/post
 router.post('/post', feedController.postPost);
 
-// PUT /feed/
+// PUT /feed/post/:postId
 router.put('/post/:postId', feedController.editPost);
 
 // DELETE /feed/post/:postId
-// router.delete('/post/delete', feedController.deletePost);
+router.delete('/post/:postId', feedController.deletePost);
 
 module.exports = router;

@@ -55,8 +55,26 @@ exports.postPost = (req, res, next) => {
 }
 
 exports.deletePost = (req, res, next) => {
-    res.status(200).json({
-        message: 'Post deleted successfully!'
+    const postId = req.params.postId;
+    Post.findById(postId)
+    .then(post => {
+        if (!post) {
+            const error = new Error('Could not find post.');
+            error.status = 404;
+            throw error;
+        }
+        return Post.findByIdAndRemove(postId);
+    })
+    .then(result => {
+        console.log(result);
+        res.status(200).json({message: "Post is successfully deleted."});
+    })
+    .catch(err => {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        console.log(err.statusCode);
+        next(err);
     })
 }
 
