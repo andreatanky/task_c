@@ -84,7 +84,7 @@ exports.editPost = (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
-        console.log(err.statusCode);
+        // console.log(err.statusCode);
         next(err);
     })
 }
