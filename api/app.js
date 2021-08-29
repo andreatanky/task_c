@@ -22,4 +22,5 @@ mongoose.connect('mongodb+srv://Andrea:password<3@cluster0.k1rxn.mongodb.net/tas
 .then(result => {
     app.listen(8080);
 }).catch(err => console.log(err));
-   
+
+module.exports = app;
