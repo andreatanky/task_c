@@ -141,9 +141,12 @@ class Feed extends Component {
 
   deletePostHandler = postId => {
     this.setState({ postsLoading: true });
-    fetch('URL')
+    fetch("http://localhost:8080/feed/post/" + postId, {
+      method: 'DELETE'
+    })
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
+          console.log(postId);
           throw new Error('Deleting a post failed!');
         }
         return res.json();
@@ -180,7 +183,6 @@ class Feed extends Component {
                 author={post.creator.name}
                 date={new Date(post.createdAt).toLocaleDateString('en-US')}
                 title={post.title}
-                image={post.imageUrl}
                 content={post.content}
                 onStartEdit={this.startEditPostHandler.bind(this, post._id)}
                 onDelete={this.deletePostHandler.bind(this, post._id)}

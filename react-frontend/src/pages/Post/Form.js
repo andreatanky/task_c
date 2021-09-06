@@ -1,9 +1,9 @@
 import React from 'react';
-import '../../css/Post.css';
+import '../../css/Form.css';
 import {Container} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-const Post =  () => {  
+const Form =  () => {  
     return (
         <Container className="PostWrapper" id="wrapper">
             <p className="postHeader">Write a post!</p>
@@ -33,4 +33,4 @@ const Post =  () => {
     )
 }
 
-export default Post;
+export default Form;
