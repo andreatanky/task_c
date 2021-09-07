@@ -15,6 +15,15 @@ app.use(express.json()); // application/json
 
 app.use('/feed', feedRoutes);
 
+app.use('/', (req, res, next) => {
+    try {
+        throw new Error("Invalid page!")
+    }
+    catch (error) {
+        next(error)
+    }
+})
+
 app.use((error, req, res, next) => {
    console.log(error);
    const status = error.statusCode || 500;
