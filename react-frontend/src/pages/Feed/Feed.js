@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import SinglePost from '../Post/SinglePost';
+import Loader from '../../components/Loader';
 
 class Feed extends Component {
   state = {
@@ -8,7 +9,6 @@ class Feed extends Component {
     totalPosts: 0,
     editPost: null,
     status: '',
-    postPage: 1,
     postsLoading: true,
     editLoading: false
   };
@@ -17,19 +17,7 @@ class Feed extends Component {
     this.loadPosts();
   }
 
-  loadPosts = direction => {
-    if (direction) {
-      this.setState({ postsLoading: true, posts: [] });
-    }
-    let page = this.state.postPage;
-    if (direction === 'next') {
-      page++;
-      this.setState({ postPage: page });
-    }
-    if (direction === 'previous') {
-      page--;
-      this.setState({ postPage: page });
-    }
+  loadPosts = () => {
     fetch("http://localhost:8080/feed/posts")
       .then(res => {
         if (res.status !== 200) {
@@ -43,21 +31,6 @@ class Feed extends Component {
           totalPosts: resData.totalItems,
           postsLoading: false
         });
-      })
-      .catch(this.catchError);
-  };
-
-  statusUpdateHandler = event => {
-    event.preventDefault();
-    fetch('URL')
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Can't update status!");
-        }
-        return res.json();
-      })
-      .then(resData => {
-        console.log(resData);
       })
       .catch(this.catchError);
   };
@@ -174,20 +147,33 @@ class Feed extends Component {
 
   render() {
     return (
-      <Fragment>  
+      <Fragment>
+
         <section className="feed">
-            {this.state.posts.map(post => (
-            <SinglePost
-                key={post._id}
-                id={post._id}
-                author={post.creator.name}
-                date={new Date(post.createdAt).toLocaleDateString('en-US')}
-                title={post.title}
-                content={post.content}
-                onStartEdit={this.startEditPostHandler.bind(this, post._id)}
-                onDelete={this.deletePostHandler.bind(this, post._id)}
-            />
-            ))}  
+          {this.state.postsLoading && (
+            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+              <Loader />
+            </div>
+          )}
+          {this.state.posts.length <= 0 && !this.state.postsLoading ? (
+            <p style={{ textAlign: 'center' }}>No posts found.</p>
+          ) : null}
+          {!this.state.postsLoading && (         
+               <section className="feed">
+               {this.state.posts.map(post => (
+               <SinglePost
+                   key={post._id}
+                   id={post._id}
+                   author={post.creator.name}
+                   date={new Date(post.createdAt).toLocaleDateString('en-US')}
+                   title={post.title}
+                   content={post.content}
+                   onStartEdit={this.startEditPostHandler.bind(this, post._id)}
+                   onDelete={this.deletePostHandler.bind(this, post._id)}
+               />
+               ))}  
+           </section>      
+          )}
         </section>
       </Fragment>
     );
