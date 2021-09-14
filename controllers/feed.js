@@ -52,7 +52,7 @@ exports.deletePost = (req, res, next) => {
         }
         return Post.findByIdAndRemove(postId);
     })
-    .then(res => {
+    .then(result => {
         res.status(200).json({message: "Post is successfully deleted."});
     })
     .catch(err => {
@@ -81,7 +81,7 @@ exports.editPost = (req, res, next) => {
         post.content = content;
         return post.save();
     })
-    .then(res => {
+    .then(result => {
         res.status(200).json({message: 'Post updated!', post: result});
     })
     .catch(err => {
