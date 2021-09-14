@@ -22,13 +22,12 @@ r.PostWrapper {
   margin-left: 1em;
 }
 
-#authorInput,
-#titleInput {
+#editTitleInput {
   display: block;
   background-color: #e5e5e5;
   padding: 20px;
   border-radius: 6px;
-  width: 20em;
+  width: 40em;
   border: none;
 }
 

@@ -57,12 +57,8 @@ const EditForm =  props => {
                 <div className="wrapper">           
                     <div className="title">
                         <label>Title</label>
-                        <input onChange={handleChange} required id="titleInput" name="title" />
-                    </div>
-                    <div className="author">
-                        <label>Author</label>
-                        <input onChange={handleChange} required id="authorInput" name="name" />
-                    </div>   
+                        <input onChange={handleChange} required id="editTitleInput" name="title" />
+                    </div>              
                 </div>
                 <div className="wrapper">           
                     <div className="content">
