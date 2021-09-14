@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import '../../css/Form.css';
+import '../../css/EditForm.css';
 import {Container} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-const Form =  () => { 
+const EditForm =  props => { 
    const [field, setField] = useState({
        title: '',
        name: '',
@@ -12,18 +12,17 @@ const Form =  () => {
 
     const handleSubmit = event => {
         event.preventDefault();
+        console.log("in edit form:" + props.id);
         let data = {
             title: field.title,
             content: field.content,
             creator: {name: field.name}
         };
 
-        console.log(data);
-
-        let url = 'http://localhost:8080/feed/post';
+        let url = 'http://localhost:8080/feed/post/' + props.id;
 
         const requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         };
@@ -31,19 +30,12 @@ const Form =  () => {
         fetch(url, requestOptions)
           .then(res => {
             if (res.status !== 200 && res.status !== 201) {
-              throw new Error('Creating a post failed!');
+              throw new Error('Editing a post failed!');
             }
             return res.json();
           })
           .then(resData => {
             console.log(resData);
-            // const post = {
-            //   _id: resData.post._id,
-            //   title: resData.post.title,
-            //   content: resData.post.content,
-            //   creator: resData.post.creator,
-            //   createdAt: resData.post.createdAt
-            // };
           })
           .catch(err => {
             console.log(err);
@@ -60,7 +52,7 @@ const Form =  () => {
 
     return (
         <Container className="PostWrapper" id="wrapper">
-            <p className="postHeader">Write a post!</p>
+            <p className="postHeader">Edit post {console.log(props.editPostId)}</p>
             <form method="POST" action="#" onSubmit={handleSubmit}>     
                 <div className="wrapper">           
                     <div className="title">
@@ -87,4 +79,4 @@ const Form =  () => {
     )
 }
 
-export default Form;
+export default EditForm;

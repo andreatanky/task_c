@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import SinglePost from '../Post/SinglePost';
 import Loader from '../../components/Loader';
+import {Container} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import '../../css/Form.css';
+import EditForm from '../Post/EditForm';
+
 
 class Feed extends Component {
   state = {
@@ -11,7 +16,8 @@ class Feed extends Component {
     status: '',
     postPage: 1,
     postsLoading: true,
-    editLoading: false
+    editLoading: false,
+    editId: ''
   };
 
   componentDidMount() {
@@ -85,14 +91,19 @@ class Feed extends Component {
   };
 
   startEditPostHandler = postId => {
-    this.setState(prevState => {
-      const loadedPost = { ...prevState.posts.find(p => p._id === postId) };
-      console.log(postId);
-      return {
-        isEditing: true,
-        editPost: loadedPost
-      };
-    });
+    this.setState({editId: postId});
+    console.log(this.state.editId);
+    this.setState({isEditing: !this.isEditing});
+    // this.setState(prevState => {
+    //   const loadedPost = { ...prevState.posts.find(p => p._id === postId) };
+    //   
+    //   console.log(postId);
+    //   //populate form with input values
+    //   return {
+    //     isEditing: true,
+    //     editPost: loadedPost
+    //   };
+    // });
   };
 
   cancelEditHandler = () => {
@@ -197,16 +208,17 @@ class Feed extends Component {
     this.setState({ error: error });
   };
 
+
   render() {
     return (
       <Fragment>
-
         <section className="feed">
           {this.state.postsLoading && (
             <div style={{ textAlign: 'center', marginTop: '2rem' }}>
               <Loader />
             </div>
           )}
+          {this.state.isEditing ? <EditForm id={this.state.editId}/> : undefined}
           {this.state.posts.length <= 0 && !this.state.postsLoading ? (
             <p style={{ textAlign: 'center' }}>No posts found.</p>
           ) : null}
