@@ -5,15 +5,26 @@ var cors = require("cors");
 require('dotenv').config();
 
 const feedRoutes = require('./routes/feed');
+const authRoutes = require('./routes/auth')
 
 const app = express();
 app.use(cors());
-const pw = process.env.MONGODB_PASSWORD;
 
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
 app.use(express.json()); // application/json
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'OPTIONS, GET, POST, PUT, DELETE'
+    );
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+})
+
 app.use('/feed', feedRoutes);
+app.use('/auth', authRoutes);
 
 app.use('/', (req, res, next) => {
     try {
@@ -28,7 +39,8 @@ app.use((error, req, res, next) => {
    console.log(error);
    const status = error.statusCode || 500;
    const message = error.message;
-   res.status(status).json({message: "An error occured!"});
+   const data = error.data;
+   res.status(status).json({message: "An error occured!", data: data});
 })
 
 mongoose.connect('mongodb+srv://Andrea:password<3@cluster0.k1rxn.mongodb.net/task_b1?retryWrites=true&w=majority')
