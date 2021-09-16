@@ -43,7 +43,7 @@ app.use((error, req, res, next) => {
    res.status(status).json({message: "An error occured!", data: data});
 })
 
-mongoose.connect('mongodb+srv://Andrea:password<3@cluster0.k1rxn.mongodb.net/task_b1?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://andrea:password12345@cluster0.sa63u.mongodb.net/task_c?retryWrites=true&w=majority')
 .then(result => {
     app.listen(8080);
 }).catch(err => console.log(err));

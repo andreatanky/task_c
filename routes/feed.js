@@ -9,12 +9,12 @@ const router = express.Router();
 router.get('/posts', isAuth, feedController.getPosts);
 
 // POST /feed/post
-router.post('/post', feedController.postPost);
+router.post('/post',isAuth, feedController.postPost);
 
 // PUT /feed/post/:postId
-router.put('/post/:postId', feedController.editPost);
+router.put('/post/:postId',isAuth, feedController.editPost);
 
 // DELETE /feed/post/:postId
-router.delete('/post/:postId', feedController.deletePost);
+router.delete('/post/:postId',isAuth, feedController.deletePost);
 
 module.exports = router;
